@@ -5,31 +5,31 @@ import pandas as pd
 import re
 from nltk.stem import SnowballStemmer
 
-st.title("Demo de TF-IDF con Preguntas y Respuestas")
+st.title("Demo de TF-IDF en Español con Preguntas y Respuestas")
 
 st.write("""
 Cada línea se trata como un **documento** (puede ser una frase, un párrafo o un texto más largo).  
-⚠️ Los documentos y las preguntas deben estar en **inglés**, ya que el análisis está configurado para ese idioma.  
+Ahora puedes escribir los documentos y las preguntas en **español**.  
 
-La aplicación aplica normalización y *stemming* para que palabras como *playing* y *play* se consideren equivalentes.
+La aplicación aplica normalización y *stemming* en español para que palabras como *jugando* y *juegan* se consideren equivalentes.
 """)
 
-# Ejemplo inicial en inglés
+# Ejemplo inicial en español
 text_input = st.text_area(
-    "Escribe tus documentos (uno por línea, en inglés):",
-    "The dog barks loudly.\nThe cat meows at night.\nThe dog and the cat play together."
+    "Escribe tus documentos (uno por línea, en español):",
+    "El perro ladra fuerte.\nEl gato maúlla en la noche.\nEl perro y el gato juegan juntos."
 )
 
-question = st.text_input("Escribe una pregunta (en inglés):", "Who is playing?")
+question = st.text_input("Escribe una pregunta (en español):", "¿Quién está jugando?")
 
-# Inicializar stemmer para inglés
-stemmer = SnowballStemmer("english")
+# Inicializar stemmer para español
+stemmer = SnowballStemmer("spanish")
 
 def tokenize_and_stem(text: str):
     # Pasar a minúsculas
     text = text.lower()
     # Eliminar caracteres no alfabéticos
-    text = re.sub(r'[^a-z\s]', ' ', text)
+    text = re.sub(r'[^a-záéíóúüñ\s]', ' ', text)
     # Tokenizar (palabras con longitud > 1)
     tokens = [t for t in text.split() if len(t) > 1]
     # Aplicar stemming
@@ -41,10 +41,10 @@ if st.button("Calcular TF-IDF y buscar respuesta"):
     if len(documents) < 1:
         st.warning("⚠️ Ingresa al menos un documento.")
     else:
-        # Vectorizador con stemming
+        # Vectorizador con stemming y stopwords en español
         vectorizer = TfidfVectorizer(
             tokenizer=tokenize_and_stem,
-            stop_words="english",
+            stop_words="spanish",
             token_pattern=None
         )
 
@@ -58,7 +58,7 @@ if st.button("Calcular TF-IDF y buscar respuesta"):
             index=[f"Doc {i+1}" for i in range(len(documents))]
         )
 
-        st.write("### Matriz TF-IDF (stems)")
+        st.write("### Matriz TF-IDF (stems en español)")
         st.dataframe(df_tfidf.round(3))
 
         # Vector de la pregunta
