@@ -45,7 +45,7 @@ if st.button("Calcular TF-IDF y buscar respuesta"):
         vectorizer = TfidfVectorizer(
             tokenizer=tokenize_and_stem,
             stop_words="spanish",
-            token_pattern=None
+            
         )
 
         # Ajustar con documentos
