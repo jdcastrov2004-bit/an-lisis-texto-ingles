@@ -114,7 +114,7 @@ if st.button("🔍 Analizar documentos y buscar respuesta", type="primary"):
             # Configurar vectorizador
             vectorizer_params = {
                 'tokenizer': tokenize_and_stem,
-                'stop_words': 'spanish',
+                # 'stop_words': 'spanish',  # Removido - manejamos stopwords en tokenize_and_stem
                 'min_df': min_df,
             }
             if max_features:
@@ -254,6 +254,3 @@ donde 1 = idénticos y 0 = completamente diferentes.
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Desarrollado  usando Streamlit y scikit-learn")
-
-
-
