@@ -34,29 +34,35 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     text_input = st.text_area("📝 Documentos (uno por línea):", default_docs, height=150)
-    
-    # Manejar pregunta seleccionada o manual
-    if 'selected_question' in st.session_state:
-        default_question = st.session_state.selected_question
-    else:
-        default_question = "¿Dónde juegan el perro y el gato?"
-    
-    question = st.text_input("❓ Escribe tu pregunta:", default_question)
+    question = st.text_input("❓ Escribe tu pregunta:", "¿Dónde juegan el perro y el gato?")
 
 with col2:
     st.markdown("### 💡 Preguntas sugeridas:")
-    suggested_questions = [
-        "¿Quién está jugando?",
-        "¿Qué animal hace ruido?", 
-        "¿Dónde corren los niños?",
-        "¿Cuándo cantan los pájaros?",
-        "¿Qué hace el gato?"
-    ]
     
-    for q in suggested_questions:
-        if st.button(q, key=q, use_container_width=True):
-            question = q
-            st.rerun()
+    # NUEVAS preguntas optimizadas para mayor similitud
+    if st.button("¿Dónde juegan el perro y el gato?", use_container_width=True):
+        st.session_state.question = "¿Dónde juegan el perro y el gato?"
+        st.rerun()
+    
+    if st.button("¿Qué hacen los niños en el parque?", use_container_width=True):
+        st.session_state.question = "¿Qué hacen los niños en el parque?"
+        st.rerun()
+        
+    if st.button("¿Cuándo cantan los pájaros?", use_container_width=True):
+        st.session_state.question = "¿Cuándo cantan los pájaros?"
+        st.rerun()
+        
+    if st.button("¿Dónde suena la música alta?", use_container_width=True):
+        st.session_state.question = "¿Dónde suena la música alta?"
+        st.rerun()
+        
+    if st.button("¿Qué animal maúlla durante la noche?", use_container_width=True):
+        st.session_state.question = "¿Qué animal maúlla durante la noche?"
+        st.rerun()
+
+# Actualizar pregunta si se seleccionó una sugerida
+if 'question' in st.session_state:
+    question = st.session_state.question
 
 if st.button("🔍 Analizar", type="primary"):
     documents = [d.strip() for d in text_input.split("\n") if d.strip()]
