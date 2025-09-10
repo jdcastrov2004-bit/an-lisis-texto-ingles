@@ -34,7 +34,7 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     text_input = st.text_area("📝 Documentos (uno por línea):", default_docs, height=150)
-    question = st.text_input("❓ Escribe tu pregunta:", "¿Dónde corren los niños?")
+    question = st.text_input("❓ Escribe tu pregunta:", "¿Dónde juegan el perro y el gato?")
 
 with col2:
     st.markdown("### 💡 Preguntas sugeridas:")
