@@ -1,7 +1,18 @@
-streamlit==1.38.0
-scikit-learn==1.5.2
-pandas==2.2.2
-nltk==3.8.1
+# Requerimientos para la aplicación TF-IDF en Español
+
+# Framework web
+streamlit>=1.28.0
+
+# Machine Learning y procesamiento de texto
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Procesamiento de lenguaje natural
+nltk>=3.8.1
+
+# Regex (incluido por defecto en Python, pero especificado para claridad)
+# re - módulo estándar de Python
 
 
 
