@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -73,4 +72,3 @@ if st.button("Calcular TF-IDF y buscar respuesta"):
 
         st.write("### Tokens de la pregunta (preprocesados)")
         st.write(q_stems)
-```
