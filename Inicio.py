@@ -4,13 +4,22 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 import re
 from nltk.stem import SnowballStemmer
+from PIL import Image
 
-st.title("Demo de TF-IDF con Preguntas y Respuestas")
+st.title("Búsqueda con TF-IDF: Preguntas y Respuestas")
+image = Image.open("lupa.jpg")
+st.image(image, width=360)
+
 st.write(
-    "Ingresa varios documentos (uno por línea) y una pregunta, todo en **inglés**. "
-    "La app normaliza y aplica *stemming* para que formas como *playing/play* se traten como equivalentes. "
-    "Calcula TF-IDF, encuentra el documento más relevante para tu pregunta y muestra las similitudes."
+    "En esta actividad trabajarás con **TF-IDF** para encontrar el documento más relevante respecto a una pregunta. "
+    "Escribe varios documentos (uno por línea) y una pregunta, todo en **inglés**. "
+    "El sistema normaliza y aplica *stemming* para que formas como *playing/play* cuenten como equivalentes."
 )
+
+with st.sidebar:
+    st.subheader("Instrucciones")
+    st.write("1) Escribe tus documentos, uno por línea.\n2) Escribe tu pregunta.\n3) Presiona **Calcular y responder**.\n4) Revisa la matriz TF-IDF, similitudes y el documento más relevante.")
+    st.caption("Nota: El análisis está configurado para inglés (stopwords + stemming).")
 
 text_input = st.text_area(
     "Documents (one per line, in English):",
@@ -27,7 +36,7 @@ def tokenize_and_stem(text: str):
     stems = [stemmer.stem(t) for t in tokens]
     return stems
 
-if st.button("Calcular TF-IDF y buscar respuesta"):
+if st.button("Calcular y responder"):
     documents = [d.strip() for d in text_input.split("\n") if d.strip()]
     if len(documents) < 1:
         st.warning("⚠️ Ingresa al menos un documento.")
@@ -52,23 +61,21 @@ if st.button("Calcular TF-IDF y buscar respuesta"):
         best_doc = documents[best_idx]
         best_score = similarities[best_idx]
 
-        st.write("### Pregunta y respuesta")
-        st.write(f"**Tu pregunta:** {question}")
+        st.write("### Resultado")
+        st.write(f"**Pregunta:** {question}")
         st.write(f"**Documento más relevante (Doc {best_idx+1}):** {best_doc}")
-        st.write(f"**Puntaje de similitud:** {best_score:.3f}")
+        st.write(f"**Similitud (coseno):** {best_score:.3f}")
 
         sim_df = pd.DataFrame({
             "Documento": [f"Doc {i+1}" for i in range(len(documents))],
             "Texto": documents,
             "Similitud": similarities
         }).sort_values("Similitud", ascending=False)
-        st.write("### Puntajes de similitud (ordenados)")
+        st.write("### Similitudes entre pregunta y documentos")
         st.dataframe(sim_df, use_container_width=True)
 
         vocab = vectorizer.get_feature_names_out()
         q_stems = tokenize_and_stem(question)
         matched = [s for s in q_stems if s in vocab and df_tfidf.iloc[best_idx].get(s, 0) > 0]
-        st.write("### Stems de la pregunta presentes en el documento elegido:", matched)
-
-        st.write("### Tokens de la pregunta (preprocesados)")
-        st.write(q_stems)
+        st.write("### Stems de la pregunta presentes en el documento elegido")
+        st.write(matched if matched else "No se encontraron coincidencias de stems.")
