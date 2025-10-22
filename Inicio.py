@@ -7,7 +7,7 @@ from nltk.stem import SnowballStemmer
 from PIL import Image
 
 st.title("Búsqueda con TF-IDF: Preguntas y Respuestas")
-image = Image.open("lupa.jpg")
+image = Image.open("lectora.jpg")
 st.image(image, width=360)
 
 st.write(
